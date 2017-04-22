@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.haiti.metro.news" name="Haiti MetroNews" version="0.0.0" provider-name="Stanley Calixte">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="addon.py">
+    <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">Provides access to news from Haiti Tele Metro: MetroNews</summary>
+    <description lang="en">Provides ability watch MetroNews news videos from the comfort of Kodi</description>
+    <disclaimer lang="en"></disclaimer>
+    <language>en</language>
+    <platform>all</platform>
+    <license>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</license>
+    <forum></forum>
+    <website>https://github.com/DuCalixte/plugin.video.haiti.metro.news</website>
+    <email></email>
+    <source>https://github.com/DuCalixte/plugin.video.haiti.metro.news</source>
+  </extension>
+</addon>
