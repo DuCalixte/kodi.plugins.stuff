@@ -73,11 +73,11 @@ class MetroNews:
             isFolder = False
         print "url %s"%_url
         return xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=_url,listitem=_item,isFolder=isFolder)
-    def get_params():
+    def get_params(self):
         p = parse_qs(sys.argv[2][1:])
         for i in p.keys():
             p[i] = p[i][0]
-            return p
+        return p
     def set_debug_mode(self):
         self.debug_mode = False
         if __addon__.getSetting('debug') == 'true':
