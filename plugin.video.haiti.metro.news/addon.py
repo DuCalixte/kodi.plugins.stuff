@@ -40,7 +40,7 @@ class MetroNews:
     """
     def __init__(self, *args, **kwargs):
         print "<==========================>"
-        print "Haiti MetroNews version - %s",%__version__
+        print "Haiti MetroNews version - %s"%__version__
         print "<==========================>"
         self.set_debug_mode()
         self.params = self.get_params()
@@ -63,7 +63,7 @@ class MetroNews:
         xbmcgui.Dialog().ok(addon_name, "The video source is not playable")
         return None
     def add_item(self,name,url,mode,iconimage="DefaultFolder.png",info={},fanart=FANART_PATH,isPlayable=False):
-        _url   = sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)+"&iconimage="+urllib.quote_plus(iconimage)
+        _url   = sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)+"&iconImage="+urllib.quote_plus(iconimage)
         _item = xbmcgui.ListItem(name, iconImage=iconimage, thumbnailImage=iconimage)
         _item.setInfo(type="Video",infoLabels=info)
         _item.setProperty("Fanart_Image",fanart)
@@ -71,7 +71,13 @@ class MetroNews:
         if isPlayable :
             _item.setProperty('IsPlayable','true')
             isFolder = False
+        print "url %s"%_url
         return xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=_url,listitem=_item,isFolder=isFolder)
+    def get_params():
+        p = parse_qs(sys.argv[2][1:])
+        for i in p.keys():
+            p[i] = p[i][0]
+            return p
     def set_debug_mode(self):
         self.debug_mode = False
         if __addon__.getSetting('debug') == 'true':
@@ -91,7 +97,7 @@ class MetroNews:
         except:
             pass
     def __display_on_mode_change(self):
-        if mode is None:
+        if self.mode is None:
             self.display_all_categories()
             xbmcplugin.endOfDirectory(int(sys.argv[1]))
         else:
