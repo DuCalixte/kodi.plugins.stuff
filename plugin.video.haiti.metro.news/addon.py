@@ -58,12 +58,12 @@ class MetroNews:
         xbmc.log("Haiti MetroNews addon : Name           -> %s"%str(self.name), xbmc.LOGNOTICE)
         xbmc.log("Haiti MetroNews addon : Iconimage      -> %s"%str(self.icon_image), xbmc.LOGNOTICE)
         if self.debug_mode:
-        # xbmc.log("Haiti MetroNews addon : Python version -> %s"%str(sys.version_info), xbmc.LOGDEBUG)
-        # xbmc.log("Haiti MetroNews addon : Addon dir      -> %s"%__addonDir__, xbmc.LOGDEBUG)
-        xbmc.log("Haiti MetroNews addon : Mode           -> %s"%str(self.mode), xbmc.LOGDEBUG)
-        xbmc.log("Haiti MetroNews addon : URL            -> %s"%str(self.url), xbmc.LOGDEBUG)
-        xbmc.log("Haiti MetroNews addon : Name           -> %s"%str(self.name), xbmc.LOGDEBUG)
-        xbmc.log("Haiti MetroNews addon : Iconimage      -> %s"%str(self.icon_image), xbmc.LOGDEBUG)
+            # xbmc.log("Haiti MetroNews addon : Python version -> %s"%str(sys.version_info), xbmc.LOGDEBUG)
+            # xbmc.log("Haiti MetroNews addon : Addon dir      -> %s"%__addonDir__, xbmc.LOGDEBUG)
+            xbmc.log("Haiti MetroNews addon : Mode           -> %s"%str(self.mode), xbmc.LOGDEBUG)
+            xbmc.log("Haiti MetroNews addon : URL            -> %s"%str(self.url), xbmc.LOGDEBUG)
+            xbmc.log("Haiti MetroNews addon : Name           -> %s"%str(self.name), xbmc.LOGDEBUG)
+            xbmc.log("Haiti MetroNews addon : Iconimage      -> %s"%str(self.icon_image), xbmc.LOGDEBUG)
 
     def show_contents(self):
         response = urllib2('https://developers.google.com/apis-explorer/#p/youtube/v3/youtube.playlistItems.list?part=snippet&maxResults=25&playlistId=UU8rH_LswworcG_PAQGJE6jw&_h=9&')
