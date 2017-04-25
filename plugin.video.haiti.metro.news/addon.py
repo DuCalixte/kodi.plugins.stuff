@@ -50,8 +50,8 @@ class MetroNews:
         self.name = None
         self.__initialize()
         self.__display_on_mode_change()
-        xbmc.("Haiti MetroNews addon : Python version -> %s"%str(sys.version_info, xbmc.LOGDEBUG)
-        xbmc.("Haiti MetroNews addon : Addon dir      -> %s"%__addonDir__, xbmc.LOGDEBUG)
+        # xbmc.("Haiti MetroNews addon : Python version -> %s"%str(sys.version_info, xbmc.LOGDEBUG)
+        # xbmc.("Haiti MetroNews addon : Addon dir      -> %s"%__addonDir__, xbmc.LOGDEBUG)
         xbmc.("Haiti MetroNews addon : Mode           -> "+str(self.mode, xbmc.LOGDEBUG)
         xbmc.("Haiti MetroNews addon : URL            -> "+str(self.url, xbmc.LOGDEBUG)
         xbmc.("Haiti MetroNews addon : Name           -> "+str(self.name, xbmc.LOGDEBUG)
