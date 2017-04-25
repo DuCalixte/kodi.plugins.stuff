@@ -133,7 +133,7 @@ class MetroNews:
     def __display_videos(self, videos):
         for video in videos:
             title = video['snippet']['title']
-            url = video['snippet']['videoId']
+            url = video['snippet']['resourceId']['videoId']
             icon_image = video['snippet']['thumbnails']['standard']['url']
             info = video['snippet']
             self.add_item(title,url,3,icon_image,info,FANART_PATH, True)
