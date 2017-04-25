@@ -57,13 +57,13 @@ class MetroNews:
         xbmc.log("Haiti MetroNews addon : URL            -> %s"%str(self.url), xbmc.LOGDEBUG)
         xbmc.log("Haiti MetroNews addon : Name           -> %s"%str(self.name), xbmc.LOGDEBUG)
         xbmc.log("Haiti MetroNews addon : Iconimage      -> %s"%str(self.icon_image), xbmc.LOGDEBUG)
-        if self.debug_mode:
-            print "Haiti MetroNews addon : Python version -> %s"%str(sys.version_info
-            print "Haiti MetroNews addon : Addon dir      -> %s"%__addonDir__
-            print "Haiti MetroNews addon : Mode           -> "+str(self.mode)
-            print "Haiti MetroNews addon : URL            -> "+str(self.url)
-            print "Haiti MetroNews addon : Name           -> "+str(self.name)
-            print "Haiti MetroNews addon : Iconimage      -> "+str(self.icon_image)
+        # if self.debug_mode:
+        #     print "Haiti MetroNews addon : Python version -> %s"%str(sys.version_info
+        #     print "Haiti MetroNews addon : Addon dir      -> %s"%__addonDir__
+        #     print "Haiti MetroNews addon : Mode           -> "+str(self.mode)
+        #     print "Haiti MetroNews addon : URL            -> "+str(self.url)
+        #     print "Haiti MetroNews addon : Name           -> "+str(self.name)
+        #     print "Haiti MetroNews addon : Iconimage      -> "+str(self.icon_image)
 
     def show_contents(self):
         response = urllib2('https://developers.google.com/apis-explorer/#p/youtube/v3/youtube.playlistItems.list?part=snippet&maxResults=25&playlistId=UU8rH_LswworcG_PAQGJE6jw&_h=9&')
