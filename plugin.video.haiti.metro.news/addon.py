@@ -53,10 +53,10 @@ class MetroNews:
         xbmc.log("Haiti MetroNews version")
         # xbmc.log("Haiti MetroNews addon : Python version -> %s"%str(sys.version_info, xbmc.LOGDEBUG)
         # xbmc.log("Haiti MetroNews addon : Addon dir      -> %s"%__addonDir__, xbmc.LOGDEBUG)
-        xbmc.log("Haiti MetroNews addon : Mode           -> "+str(self.mode, xbmc.LOGDEBUG)
-        xbmc.log("Haiti MetroNews addon : URL            -> "+str(self.url, xbmc.LOGDEBUG)
-        xbmc.log("Haiti MetroNews addon : Name           -> "+str(self.name, xbmc.LOGDEBUG)
-        xbmc.log("Haiti MetroNews addon : Iconimage      -> "+str(self.icon_image, xbmc.LOGDEBUG)
+        xbmc.log("Haiti MetroNews addon : Mode           -> %s"%str(self.mode), xbmc.LOGDEBUG)
+        xbmc.log("Haiti MetroNews addon : URL            -> %s"%str(self.url), xbmc.LOGDEBUG)
+        xbmc.log("Haiti MetroNews addon : Name           -> %s"%str(self.name), xbmc.LOGDEBUG)
+        xbmc.log("Haiti MetroNews addon : Iconimage      -> %s"%str(self.icon_image), xbmc.LOGDEBUG)
         if self.debug_mode:
             print "Haiti MetroNews addon : Python version -> %s"%str(sys.version_info
             print "Haiti MetroNews addon : Addon dir      -> %s"%__addonDir__
