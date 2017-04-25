@@ -135,7 +135,7 @@ class MetroNews:
             url = video['snippet']['videoId']
             icon_image = video['snippet']['thumbnails']['standard']['url']
             info = video['snippet']
-            self.add_item(title,url,3,icon_image,info,FANART_PATH, True):
+            self.add_item(title,url,3,icon_image,info,FANART_PATH, True)
     def __load_videos(self, maxResults = 10):
         params = {'part': YOUTUBE_API_PART, 'maxResults': maxResults, 'playlistId': YOUTUBE_PLAYLIST_ID, 'key': YOUTUBE_API_KEY}
         return self.list.load_playlist_items(params)
