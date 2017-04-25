@@ -39,9 +39,6 @@ class MetroNews:
     main class
     """
     def __init__(self, *args, **kwargs):
-        print "<==========================>"
-        print "Haiti MetroNews version - %s"%__version__
-        print "<==========================>"
         self.set_debug_mode()
         self.params = self.get_params()
         self.mode = None
@@ -50,20 +47,15 @@ class MetroNews:
         self.name = None
         self.__initialize()
         self.__display_on_mode_change()
-        xbmc.log("Haiti MetroNews version")
-        # xbmc.log("Haiti MetroNews addon : Python version -> %s"%str(sys.version_info, xbmc.LOGNOTICE)
-        # xbmc.log("Haiti MetroNews addon : Addon dir      -> %s"%__addonDir__, xbmc.LOGNOTICE)
-        xbmc.log("Haiti MetroNews addon : Mode           -> %s"%str(self.mode), xbmc.LOGNOTICE)
-        xbmc.log("Haiti MetroNews addon : URL            -> %s"%str(self.url), xbmc.LOGNOTICE)
-        xbmc.log("Haiti MetroNews addon : Name           -> %s"%str(self.name), xbmc.LOGNOTICE)
-        xbmc.log("Haiti MetroNews addon : Iconimage      -> %s"%str(self.icon_image), xbmc.LOGNOTICE)
+
         if self.debug_mode:
-            # xbmc.log("Haiti MetroNews addon : Python version -> %s"%str(sys.version_info), xbmc.LOGDEBUG)
-            # xbmc.log("Haiti MetroNews addon : Addon dir      -> %s"%__addonDir__, xbmc.LOGDEBUG)
-            xbmc.log("Haiti MetroNews addon : Mode           -> %s"%str(self.mode), xbmc.LOGDEBUG)
-            xbmc.log("Haiti MetroNews addon : URL            -> %s"%str(self.url), xbmc.LOGDEBUG)
-            xbmc.log("Haiti MetroNews addon : Name           -> %s"%str(self.name), xbmc.LOGDEBUG)
-            xbmc.log("Haiti MetroNews addon : Iconimage      -> %s"%str(self.icon_image), xbmc.LOGDEBUG)
+            xbmc.log("Haiti MetroNews version - %s"%__version__, xbmc.LOGNOTICE)
+            # xbmc.log("Haiti MetroNews addon : Python version -> %s"%str(sys.version_info), xbmc.LOGNOTICE)
+            # xbmc.log("Haiti MetroNews addon : Addon dir      -> %s"%__addonDir__, xbmc.LOGNOTICE)
+            xbmc.log("Haiti MetroNews addon : Mode           -> %s"%str(self.mode), xbmc.LOGNOTICE)
+            xbmc.log("Haiti MetroNews addon : URL            -> %s"%str(self.url), xbmc.LOGNOTICE)
+            xbmc.log("Haiti MetroNews addon : Name           -> %s"%str(self.name), xbmc.LOGNOTICE)
+            xbmc.log("Haiti MetroNews addon : Iconimage      -> %s"%str(self.icon_image), xbmc.LOGNOTICE)
 
     def show_contents(self):
         response = urllib2('https://developers.google.com/apis-explorer/#p/youtube/v3/youtube.playlistItems.list?part=snippet&maxResults=25&playlistId=UU8rH_LswworcG_PAQGJE6jw&_h=9&')
@@ -86,7 +78,11 @@ class MetroNews:
         if isPlayable :
             _item.setProperty('IsPlayable','true')
             isFolder = False
-        print "url %s"%_url
+        xbmc.log("XBMC URL - %s"%_url, xbmc.LOGNOTICE)
+        xbmc.log("XBMC DATA - %s"%_url, _item.LOGNOTICE)
+        if self.debug_mode:
+            xbmc.log("XBMC URL - %s"%_url, xbmc.LOGNOTICE)
+            xbmc.log("XBMC DATA - %s"%_item, _item.LOGNOTICE)
         return xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=_url,listitem=_item,isFolder=isFolder)
     def get_params(self):
         param  = {}
