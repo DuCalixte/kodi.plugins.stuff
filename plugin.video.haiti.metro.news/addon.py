@@ -135,8 +135,12 @@ class MetroNews:
             title = video['snippet']['title']
             url = video['snippet']['resourceId']['videoId']
             icon_image = video['snippet']['thumbnails']['standard']['url']
-            info = video['snippet']
-            self.add_item(title,url,3,icon_image,info,FANART_PATH, True)
+            # info = video['snippet']
+            info = {}
+            xbmc.log("title      -> %s"%str(title), xbmc.LOGNOTICE)
+            xbmc.log("url      -> %s"%str(url), xbmc.LOGNOTICE)
+            xbmc.log("icon      -> %s"%str(icon_image), xbmc.LOGNOTICE)
+            self.add_item(title.encode('utf-8'),url,3,icon_image,info,FANART_PATH, True)
     def __load_videos(self, maxResults = 10):
         params = {'part': YOUTUBE_API_PART, 'maxResults': maxResults, 'playlistId': YOUTUBE_PLAYLIST_ID, 'key': YOUTUBE_API_KEY}
         return self.youtube.load_playlist_items(params)
