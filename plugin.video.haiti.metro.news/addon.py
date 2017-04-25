@@ -45,10 +45,18 @@ class MetroNews:
         self.set_debug_mode()
         self.params = self.get_params()
         self.mode = None
+        self.url = None
         self.icon_image = ''
         self.name = None
         self.__initialize()
         self.__display_on_mode_change()
+        if self.debug_mode:
+            print "Haiti MetroNews addon : Python version -> %s"%str(sys.version_info)
+            print "Haiti MetroNews addon : Addon dir      -> %s"%__addonDir__
+            print "Haiti MetroNews addon : Mode           -> "+str(self.mode)
+            print "Haiti MetroNews addon : URL            -> "+str(self.url)
+            print "Haiti MetroNews addon : Name           -> "+str(self.name)
+            print "Haiti MetroNews addon : Iconimage      -> "+str(self.icon_image)
 
     def show_contents(self):
         response = urllib2('https://developers.google.com/apis-explorer/#p/youtube/v3/youtube.playlistItems.list?part=snippet&maxResults=25&playlistId=UU8rH_LswworcG_PAQGJE6jw&_h=9&')
@@ -86,13 +94,17 @@ class MetroNews:
                 splitparams=pairsofparams[i].split('=')
                 if (len(splitparams))==2:
                     param[splitparams[0]]=splitparams[1]
-        return param 
+        return param
     def set_debug_mode(self):
         self.debug_mode = False
         if __addon__.getSetting('debug') == 'true':
             self.debug_mode = True
         print "MetroNews addon: debug mode: %s"%self.debug_mode
     def __initialize(self):
+        try:
+            self.url=urllib.unquote_plus(self.params["url"])
+        except:
+            pass
         try:
             self.name=urllib.unquote_plus(self.params["name"])
         except:

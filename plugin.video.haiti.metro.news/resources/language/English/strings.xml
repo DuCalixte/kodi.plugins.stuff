@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <strings>
-  <!-- Plugin name -->
-  <string id="30000">fakeProject</string>
+  <!--GENERAL STRINGS -->
+  <string id="30000">Haiti MetroNews</string>
+  <string id="30001">Latest</string>
+
+  <!--SETTINGS STRINGS -->
+  <string id="30010">Advanced</string>
+  <string id="30011">Enable debug mode</string>
+  <string id="30012">Videos type</string>
 </strings>
