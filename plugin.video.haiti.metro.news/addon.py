@@ -50,6 +50,12 @@ class MetroNews:
         self.name = None
         self.__initialize()
         self.__display_on_mode_change()
+        print "Haiti MetroNews addon : Python version -> %s"%str(sys.version_info)
+        print "Haiti MetroNews addon : Addon dir      -> %s"%__addonDir__
+        print "Haiti MetroNews addon : Mode           -> "+str(self.mode)
+        print "Haiti MetroNews addon : URL            -> "+str(self.url)
+        print "Haiti MetroNews addon : Name           -> "+str(self.name)
+        print "Haiti MetroNews addon : Iconimage      -> "+str(self.icon_image)
         if self.debug_mode:
             print "Haiti MetroNews addon : Python version -> %s"%str(sys.version_info)
             print "Haiti MetroNews addon : Addon dir      -> %s"%__addonDir__
