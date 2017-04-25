@@ -15,10 +15,10 @@ class YoutubeResource:
     def load_playlist_items(self, params):
         return self.__load_contents(YOUTUBE_PLAYLIST_ITEMS_URL, params)["items"]
 
-    def __load_contents(self, url, params):
+    def __load_contents(self, url, payload):
         response = None
         try:
-            response = requests.get(url, params)
+            response = requests.get(url, params=payload)
             return response.json()
         except (RuntimeError, TypeError, NameError, ValueError) as err:
             print("Generic error: {0}".format(err))
