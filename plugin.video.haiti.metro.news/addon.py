@@ -143,9 +143,9 @@ class MetroNews:
         if self.mode is None:
             self.display_all_categories()
             xbmcplugin.endOfDirectory(int(sys.argv[1]))
-         elif self.mode==1 :
-             self.get_latest_videos()
-             xbmcplugin.endOfDirectory(int(sys.argv[1]))
+        elif self.mode==1 :
+            self.get_latest_videos()
+            xbmcplugin.endOfDirectory(int(sys.argv[1]))
         elif self.mode==2 :
             self.get_all_videos()
             xbmcplugin.endOfDirectory(int(sys.argv[1]))
