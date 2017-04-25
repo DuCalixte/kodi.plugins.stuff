@@ -14,6 +14,7 @@ import xbmcaddon
 
 # print_exc
 from traceback import print_exc
+from resources.lib.scrapper import YoutubeResource
 
 #---------------------------------------------------------------------
 __addonID__ = "plugin.video.haiti.metro.news"
@@ -32,7 +33,9 @@ FANART_PATH   = os.path.join(__addonDir__,"fanart.jpg")
 YOUTUBE_CHANNEL_ID = "UU8rH_LswworcG_PAQGJE6jw"
 YOUTUBE_CHANNEL_URL = "https://www.youtube.com/user/pluralsight/videos"
 YOUTUBE_PLUGIN = "plugin://plugin.video.youtube/?action=play_video&videoid=%s"
-
+YOUTUBE_API_PART = "snippet"
+YOUTUBE_API_KEY = "AIzaSyAwIUcZC2onxybXIsow6Wc4rVQdnUaSi1U"
+YOUTUBE_PLAYLIST_ID = "UU8rH_LswworcG_PAQGJE6jw"
 
 class MetroNews:
     """
@@ -63,8 +66,14 @@ class MetroNews:
         feed = tree['feed']
     def display_all_categories(self):
         categories = ['Latest videos', 'All videos']
+        index = 1
         for category in categories:
-            self.add_item(category.encode('utf-8'), 'category', 1)
+            self.add_item(category.encode('utf-8'), 'category', index)
+            index += 1
+    def get_latest_videos(self):
+        self.__display_videos(self.__load_videos())
+    def get_all_videos(self):
+        self.__display_videos(self.__load_videos(50))
     def display_nothing(self):
         addon_name = __addon__.getAddonInfo('name')
         xbmcgui.Dialog().ok(addon_name, "The video source is not playable")
@@ -79,10 +88,10 @@ class MetroNews:
             _item.setProperty('IsPlayable','true')
             isFolder = False
         xbmc.log("XBMC URL - %s"%_url, xbmc.LOGNOTICE)
-        xbmc.log("XBMC DATA - %s"%_url, _item.LOGNOTICE)
+        xbmc.log("XBMC DATA - %s"%_url, xbmc.LOGNOTICE)
         if self.debug_mode:
             xbmc.log("XBMC URL - %s"%_url, xbmc.LOGNOTICE)
-            xbmc.log("XBMC DATA - %s"%_item, _item.LOGNOTICE)
+            xbmc.log("XBMC DATA - %s"%_item, xbmc.LOGNOTICE)
         return xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=_url,listitem=_item,isFolder=isFolder)
     def get_params(self):
         param  = {}
@@ -120,9 +129,25 @@ class MetroNews:
             self.icon_image=urllib.unquote_plus(self.params["iconImage"])
         except:
             pass
+    def __display_videos(self, videos):
+        for video in videos:
+            title = video['snippet']['title']
+            url = video['snippet']['videoId']
+            icon_image = video['snippet']['thumbnails']['standard']['url']
+            info = video['snippet']
+            self.add_item(title,url,3,icon_image,info,FANART_PATH, True):
+    def __load_videos(self, maxResults = 10):
+        params = {'part': YOUTUBE_API_PART, 'maxResults': maxResults, 'playlistId': YOUTUBE_PLAYLIST_ID, 'key': YOUTUBE_API_KEY}
+        return self.list.load_playlist_items(params)
     def __display_on_mode_change(self):
         if self.mode is None:
             self.display_all_categories()
+            xbmcplugin.endOfDirectory(int(sys.argv[1]))
+         elif self.mode==1 :
+             self.get_latest_videos()
+             xbmcplugin.endOfDirectory(int(sys.argv[1]))
+        elif self.mode==2 :
+            self.get_all_videos()
             xbmcplugin.endOfDirectory(int(sys.argv[1]))
         else:
             self.display_nothing()
