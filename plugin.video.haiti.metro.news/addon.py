@@ -43,6 +43,7 @@ class MetroNews:
     """
     def __init__(self, *args, **kwargs):
         self.set_debug_mode()
+        self.youtube = YoutubeResource()
         self.params = self.get_params()
         self.mode = None
         self.url = None
@@ -138,7 +139,7 @@ class MetroNews:
             self.add_item(title,url,3,icon_image,info,FANART_PATH, True)
     def __load_videos(self, maxResults = 10):
         params = {'part': YOUTUBE_API_PART, 'maxResults': maxResults, 'playlistId': YOUTUBE_PLAYLIST_ID, 'key': YOUTUBE_API_KEY}
-        return self.list.load_playlist_items(params)
+        return self.youtube.load_playlist_items(params)
     def __display_on_mode_change(self):
         if self.mode is None:
             self.display_all_categories()
