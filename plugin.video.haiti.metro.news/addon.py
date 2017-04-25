@@ -108,6 +108,10 @@ class MetroNews:
                 if (len(splitparams))==2:
                     param[splitparams[0]]=splitparams[1]
         return param
+    def play_video(self):
+        video_url = YOUTUBE_PLUGIN%self.url
+        item = xbmcgui.ListItem(path=video_url)
+        xbmcplugin.setResolvedUrl(handle=int(sys.argv[1]), succeeded=True, listitem=item)
     def set_debug_mode(self):
         self.debug_mode = False
         if __addon__.getSetting('debug') == 'true':
@@ -134,12 +138,11 @@ class MetroNews:
         for video in videos:
             title = video['snippet']['title']
             url = video['snippet']['resourceId']['videoId']
-            icon_image = video['snippet']['thumbnails']['standard']['url']
-            # info = video['snippet']
+            try:
+                icon_image = video['snippet']['thumbnails']['standard']['url']
+            except:
+                icon_image = video['snippet']['thumbnails']['default']['url']
             info = {}
-            xbmc.log("title      -> %s"%str(title.encode("utf-8")), xbmc.LOGNOTICE)
-            # xbmc.log("url      -> %s"%str(url), xbmc.LOGNOTICE)
-            # xbmc.log("icon      -> %s"%str(icon_image), xbmc.LOGNOTICE)
             self.add_item(title.encode('utf-8'),url.encode("utf-8"),3,icon_image.encode("utf-8"),info,FANART_PATH, True)
     def __load_videos(self, maxResults = 10):
         params = {'part': YOUTUBE_API_PART, 'maxResults': maxResults, 'playlistId': YOUTUBE_PLAYLIST_ID, 'key': YOUTUBE_API_KEY}
@@ -153,6 +156,9 @@ class MetroNews:
             xbmcplugin.endOfDirectory(int(sys.argv[1]))
         elif self.mode==2 :
             self.get_all_videos()
+            xbmcplugin.endOfDirectory(int(sys.argv[1]))
+        elif self.mode==3 :
+            self.play_video()
             xbmcplugin.endOfDirectory(int(sys.argv[1]))
         else:
             self.display_nothing()
