@@ -76,10 +76,12 @@ class MetroNews:
         self.__display_videos(self.__load_videos())
     def get_all_videos(self):
         self.__display_videos(self.__load_videos_with_page_token(50))
-    def query_all_videos(self, query):
-        self.__display_videos_from_query(self.__query_videos_with_page_token(query, 50))
+    def query_all_videos(self, query, next_mode):
+        self.__display_videos_from_query(self.__query_videos_with_page_token(query, 50, next_mode))
     def iterate_all_videos(self):
         self.__display_videos(self.__load_videos_with_page_token(50, self.url))
+    def iterate_all_videos_from_query(self, query, next_mode):
+        self.__display_videos_from_query(self.__query_videos_with_page_token(query, 50, next_mode, self.url))
     def display_nothing(self):
         addon_name = __addon__.getAddonInfo('name')
         xbmcgui.Dialog().ok(addon_name, "The video source is not playable")
@@ -153,7 +155,7 @@ class MetroNews:
                 title = video['snippet']['title']
                 url = video['id']['videoId']
                 try:
-                    icon_image = video['snippet']['thumbnails']['standard']['url']
+                    icon_image = video['snippet']['thumbnails']['high']['url']
                 except:
                     icon_image = video['snippet']['thumbnails']['default']['url']
                 info = {}
@@ -173,18 +175,20 @@ class MetroNews:
         if 'nextPageToken' in response:
             self.__display_next_prev('Next', response['nextPageToken'])
         return response['items']
-    def __query_videos_with_page_token(self, query, maxResults, token = None):
+    def __query_videos_with_page_token(self, query, maxResults, next_mode, token = None):
         params = {'part': YOUTUBE_API_PART, 'q': query, 'maxResults': maxResults, 'playlistId': YOUTUBE_PLAYLIST_ID, 'fields': YOUTUBE_PLAYLIST_FIELDS, 'key': YOUTUBE_API_KEY}
         if token:
             params['pageToken'] = token
         response = self.youtube.query_playlist_items_with_tokens(params)
         if 'prevPageToken' in response:
-            self.__display_next_prev('Previous', response['prevPageToken'])
+            self.__display_next_prev_with_query('Previous', next_mode, response['prevPageToken'])
         if 'nextPageToken' in response:
-            self.__display_next_prev('Next', response['nextPageToken'])
+            self.__display_next_prev_with_query('Next', next_mode, response['nextPageToken'])
         return response['items']
     def __display_next_prev(self,title, token):
         self.add_item(title.encode('utf-8'),token.encode("utf-8"), 10)
+    def __display_next_prev_with_query(self,title, next_mode, token):
+        self.add_item(title.encode('utf-8'),token.encode("utf-8"), next_mode)
     def __display_on_mode_change(self):
         if self.mode is None:
             self.display_all_categories()
@@ -193,16 +197,22 @@ class MetroNews:
             self.get_latest_videos()
             xbmcplugin.endOfDirectory(int(sys.argv[1]))
         elif self.mode==2 :
-            self.query_all_videos('LE POINT')
+            self.query_all_videos('LE POINT', 20)
             xbmcplugin.endOfDirectory(int(sys.argv[1]))
         elif self.mode==3 :
-            self.query_all_videos('METRONEWS')
+            self.query_all_videos('METRONEWS', 30)
             xbmcplugin.endOfDirectory(int(sys.argv[1]))
         elif self.mode==4 :
             self.get_all_videos()
             xbmcplugin.endOfDirectory(int(sys.argv[1]))
         elif self.mode==10 :
             self.iterate_all_videos()
+            xbmcplugin.endOfDirectory(int(sys.argv[1]))
+        elif self.mode==20 :
+            self.iterate_all_videos_from_query('LE POINT')
+            xbmcplugin.endOfDirectory(int(sys.argv[1]))
+        elif self.mode==30 :
+            self.iterate_all_videos_from_query('METRONEWS')
             xbmcplugin.endOfDirectory(int(sys.argv[1]))
         elif self.mode==100 :
             self.play_video()
