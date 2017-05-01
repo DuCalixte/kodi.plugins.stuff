@@ -157,7 +157,7 @@ class MetroNews:
         if 'nextPageToken' in response:
             self.__display_next_prev('Next', response['nextPageToken'])
         return response['items']
-    def __display_next_prev(title, token):
+    def __display_next_prev(self,title, token):
         self.add_item(title.encode('utf-8'),token.encode("utf-8"),4)
     def __display_on_mode_change(self):
         if self.mode is None:
