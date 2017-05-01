@@ -209,10 +209,10 @@ class MetroNews:
             self.iterate_all_videos()
             xbmcplugin.endOfDirectory(int(sys.argv[1]))
         elif self.mode==20 :
-            self.iterate_all_videos_from_query('LE POINT')
+            self.iterate_all_videos_from_query('LE POINT', 20)
             xbmcplugin.endOfDirectory(int(sys.argv[1]))
         elif self.mode==30 :
-            self.iterate_all_videos_from_query('METRONEWS')
+            self.iterate_all_videos_from_query('METRONEWS', 30)
             xbmcplugin.endOfDirectory(int(sys.argv[1]))
         elif self.mode==100 :
             self.play_video()
