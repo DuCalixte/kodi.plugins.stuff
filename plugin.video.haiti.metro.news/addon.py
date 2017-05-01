@@ -31,6 +31,7 @@ FANART_PATH   = os.path.join(__addonDir__,"fanart.jpg")
 
 YOUTUBE_CHANNEL_ID = "UU8rH_LswworcG_PAQGJE6jw"
 YOUTUBE_CHANNEL_URL = "https://www.youtube.com/user/pluralsight/videos"
+YOUTUBE_QUERY_URL = "https://www.googleapis.com/youtube/v3/search?"
 YOUTUBE_PLUGIN = "plugin://plugin.video.youtube/?action=play_video&videoid=%s"
 YOUTUBE_API_PART = "snippet"
 YOUTUBE_API_KEY = "AIzaSyAwIUcZC2onxybXIsow6Wc4rVQdnUaSi1U"
@@ -66,7 +67,7 @@ class MetroNews:
         tree = json.loads(response.read())
         feed = tree['feed']
     def display_all_categories(self):
-        categories = ['Latest videos', 'All videos']
+        categories = ['Latest videos', 'Le Point', 'Metro News', 'All videos']
         index = 1
         for category in categories:
             self.add_item(category.encode('utf-8'), 'category', index)
@@ -75,6 +76,8 @@ class MetroNews:
         self.__display_videos(self.__load_videos())
     def get_all_videos(self):
         self.__display_videos(self.__load_videos_with_page_token(50))
+    def query_all_videos(self, query):
+        self.__display_videos(self.__query_videos_with_page_token(query, 50))
     def iterate_all_videos(self):
         self.__display_videos(self.__load_videos_with_page_token(50, self.url))
     def display_nothing(self):
@@ -143,7 +146,7 @@ class MetroNews:
             except:
                 icon_image = video['snippet']['thumbnails']['default']['url']
             info = {}
-            self.add_item(title.encode('utf-8'),url.encode("utf-8"),3,icon_image.encode("utf-8"),info,FANART_PATH, True)
+            self.add_item(title.encode('utf-8'),url.encode("utf-8"),100,icon_image.encode("utf-8"),info,FANART_PATH, True)
     def __load_videos(self, maxResults = 10):
         params = {'part': YOUTUBE_API_PART, 'maxResults': maxResults, 'playlistId': YOUTUBE_PLAYLIST_ID, 'fields': YOUTUBE_PLAYLIST_FIELDS, 'key': YOUTUBE_API_KEY}
         return self.youtube.load_playlist_items(params)
@@ -157,8 +160,18 @@ class MetroNews:
         if 'nextPageToken' in response:
             self.__display_next_prev('Next', response['nextPageToken'])
         return response['items']
+    def __query_videos_with_page_token(self, query, maxResults, token = None):
+        params = {'part': YOUTUBE_API_PART, 'q': query, 'maxResults': maxResults, 'playlistId': YOUTUBE_PLAYLIST_ID, 'fields': YOUTUBE_PLAYLIST_FIELDS, 'key': YOUTUBE_API_KEY}
+        if token:
+            params['pageToken'] = token
+        response = self.youtube.query_playlist_items_with_tokens(params)
+        if 'prevPageToken' in response:
+            self.__display_next_prev('Previous', response['prevPageToken'])
+        if 'nextPageToken' in response:
+            self.__display_next_prev('Next', response['nextPageToken'])
+        return response['items']
     def __display_next_prev(self,title, token):
-        self.add_item(title.encode('utf-8'),token.encode("utf-8"),4)
+        self.add_item(title.encode('utf-8'),token.encode("utf-8"), 10)
     def __display_on_mode_change(self):
         if self.mode is None:
             self.display_all_categories()
@@ -170,10 +183,16 @@ class MetroNews:
             self.get_all_videos()
             xbmcplugin.endOfDirectory(int(sys.argv[1]))
         elif self.mode==3 :
-            self.play_video()
+            self.query_all_videos('LE POINT')
             xbmcplugin.endOfDirectory(int(sys.argv[1]))
         elif self.mode==4 :
+            self.query_all_videos('METRONEWS')
+            xbmcplugin.endOfDirectory(int(sys.argv[1]))
+        elif self.mode==10 :
             self.iterate_all_videos()
+            xbmcplugin.endOfDirectory(int(sys.argv[1]))
+        elif self.mode==100 :
+            self.play_video()
             xbmcplugin.endOfDirectory(int(sys.argv[1]))
         else:
             self.display_nothing()
