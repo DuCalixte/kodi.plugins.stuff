@@ -3,7 +3,7 @@ import sys
 import requests
 
 YOUTUBE_CHANNEL_URL="https://www.googleapis.com/youtube/v3/channels"
-YOUTUBE_QUERY_URL = "https://www.googleapis.com/youtube/v3/search?"
+YOUTUBE_QUERY_PLAYLIST_ITEMS_URL = "https://www.googleapis.com/youtube/v3/search?"
 YOUTUBE_PLAYLIST_ITEMS_URL="https://www.googleapis.com/youtube/v3/playlistItems"
 
 class YoutubeResource:
@@ -16,7 +16,7 @@ class YoutubeResource:
     def load_playlist_items_with_tokens(self, params):
         return self.__load_contents(YOUTUBE_PLAYLIST_ITEMS_URL, params)
     def query_playlist_items_with_tokens(self, params):
-        return self.__load_contents(YOUTUBE_PLAYLIST_ITEMS_URL, params)
+        return self.__load_contents(YOUTUBE_QUERY_PLAYLIST_ITEMS_URL, params)
     def __load_contents(self, url, payload):
         response = None
         try:

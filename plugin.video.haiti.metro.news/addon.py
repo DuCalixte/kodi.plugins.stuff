@@ -180,13 +180,13 @@ class MetroNews:
             self.get_latest_videos()
             xbmcplugin.endOfDirectory(int(sys.argv[1]))
         elif self.mode==2 :
-            self.get_all_videos()
-            xbmcplugin.endOfDirectory(int(sys.argv[1]))
-        elif self.mode==3 :
             self.query_all_videos('LE POINT')
             xbmcplugin.endOfDirectory(int(sys.argv[1]))
+        elif self.mode==3 :
+                self.query_all_videos('METRONEWS')
+            xbmcplugin.endOfDirectory(int(sys.argv[1]))
         elif self.mode==4 :
-            self.query_all_videos('METRONEWS')
+                self.get_all_videos()
             xbmcplugin.endOfDirectory(int(sys.argv[1]))
         elif self.mode==10 :
             self.iterate_all_videos()
