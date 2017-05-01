@@ -37,6 +37,10 @@ YOUTUBE_API_PART = "snippet"
 YOUTUBE_API_KEY = "AIzaSyAwIUcZC2onxybXIsow6Wc4rVQdnUaSi1U"
 YOUTUBE_PLAYLIST_ID = "UU8rH_LswworcG_PAQGJE6jw"
 YOUTUBE_PLAYLIST_FIELDS = "items,nextPageToken,prevPageToken,tokenPagination"
+YOUTUBE_SORT_BY_DATE = "date"
+YOUTUBE_SORT_BY_DATE_PUBLISHED = "published"
+YOUTUBE_SORT_BY_RATING = "rating"
+YOUTUBE_SORT_BY_RELEVANCE = "relevance"
 
 class MetroNews:
     """
@@ -176,7 +180,7 @@ class MetroNews:
             self.__display_next_prev('Next', response['nextPageToken'])
         return response['items']
     def __query_videos_with_page_token(self, query, maxResults, next_mode, token = None):
-        params = {'part': YOUTUBE_API_PART, 'q': query, 'maxResults': maxResults, 'playlistId': YOUTUBE_PLAYLIST_ID, 'fields': YOUTUBE_PLAYLIST_FIELDS, 'key': YOUTUBE_API_KEY}
+        params = {'part': YOUTUBE_API_PART, 'q': query, 'maxResults': maxResults, 'playlistId': YOUTUBE_PLAYLIST_ID, 'order': YOUTUBE_SORT_BY_DATE, 'fields': YOUTUBE_PLAYLIST_FIELDS, 'key': YOUTUBE_API_KEY}
         if token:
             params['pageToken'] = token
         response = self.youtube.query_playlist_items_with_tokens(params)
