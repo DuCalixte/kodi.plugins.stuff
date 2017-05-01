@@ -77,7 +77,7 @@ class MetroNews:
     def get_all_videos(self):
         self.__display_videos(self.__load_videos_with_page_token(50))
     def query_all_videos(self, query):
-        self.__display_videos(self.__query_videos_with_page_token(query, 50))
+        self.__display_videos_from_query(self.__query_videos_with_page_token(query, 50))
     def iterate_all_videos(self):
         self.__display_videos(self.__load_videos_with_page_token(50, self.url))
     def display_nothing(self):
@@ -147,6 +147,19 @@ class MetroNews:
                 icon_image = video['snippet']['thumbnails']['default']['url']
             info = {}
             self.add_item(title.encode('utf-8'),url.encode("utf-8"),100,icon_image.encode("utf-8"),info,FANART_PATH, True)
+    def __display_videos_from_query(self, videos):
+        for video in videos:
+            try:
+                title = video['snippet']['title']
+                url = video['id']['videoId']
+                try:
+                    icon_image = video['snippet']['thumbnails']['standard']['url']
+                except:
+                    icon_image = video['snippet']['thumbnails']['default']['url']
+                info = {}
+                self.add_item(title.encode('utf-8'),url.encode("utf-8"),100,icon_image.encode("utf-8"),info,FANART_PATH, True)
+            except:
+                pass
     def __load_videos(self, maxResults = 10):
         params = {'part': YOUTUBE_API_PART, 'maxResults': maxResults, 'playlistId': YOUTUBE_PLAYLIST_ID, 'fields': YOUTUBE_PLAYLIST_FIELDS, 'key': YOUTUBE_API_KEY}
         return self.youtube.load_playlist_items(params)
