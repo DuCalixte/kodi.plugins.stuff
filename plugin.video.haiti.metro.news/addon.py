@@ -29,13 +29,13 @@ __version__ = __addon__.getAddonInfo("version")
 ICON_PATH     = os.path.join(__addonDir__,"icon.png")
 FANART_PATH   = os.path.join(__addonDir__,"fanart.jpg")
 
-# YOUTUBE_CHANNEL_URL = "https://www.youtube.com/channel/UC8rH_LswworcG_PAQGJE6jw"
 YOUTUBE_CHANNEL_ID = "UU8rH_LswworcG_PAQGJE6jw"
 YOUTUBE_CHANNEL_URL = "https://www.youtube.com/user/pluralsight/videos"
 YOUTUBE_PLUGIN = "plugin://plugin.video.youtube/?action=play_video&videoid=%s"
 YOUTUBE_API_PART = "snippet"
 YOUTUBE_API_KEY = "AIzaSyAwIUcZC2onxybXIsow6Wc4rVQdnUaSi1U"
 YOUTUBE_PLAYLIST_ID = "UU8rH_LswworcG_PAQGJE6jw"
+YOUTUBE_PLAYLIST_FIELDS = "items,nextPageToken,prevPageToken,tokenPagination"
 
 class MetroNews:
     """
@@ -74,7 +74,9 @@ class MetroNews:
     def get_latest_videos(self):
         self.__display_videos(self.__load_videos())
     def get_all_videos(self):
-        self.__display_videos(self.__load_videos(50))
+        self.__display_videos(self.__load_videos_with_page_token(50))
+    def iterate_all_videos(self):
+        self.__display_videos(self.__load_videos_with_page_token(50, self.url))
     def display_nothing(self):
         addon_name = __addon__.getAddonInfo('name')
         xbmcgui.Dialog().ok(addon_name, "The video source is not playable")
@@ -88,8 +90,6 @@ class MetroNews:
         if isPlayable :
             _item.setProperty('IsPlayable','true')
             isFolder = False
-        xbmc.log("XBMC URL - %s"%_url, xbmc.LOGNOTICE)
-        xbmc.log("XBMC DATA - %s"%_url, xbmc.LOGNOTICE)
         if self.debug_mode:
             xbmc.log("XBMC URL - %s"%_url, xbmc.LOGNOTICE)
             xbmc.log("XBMC DATA - %s"%_item, xbmc.LOGNOTICE)
@@ -145,8 +145,20 @@ class MetroNews:
             info = {}
             self.add_item(title.encode('utf-8'),url.encode("utf-8"),3,icon_image.encode("utf-8"),info,FANART_PATH, True)
     def __load_videos(self, maxResults = 10):
-        params = {'part': YOUTUBE_API_PART, 'maxResults': maxResults, 'playlistId': YOUTUBE_PLAYLIST_ID, 'key': YOUTUBE_API_KEY}
+        params = {'part': YOUTUBE_API_PART, 'maxResults': maxResults, 'playlistId': YOUTUBE_PLAYLIST_ID, 'fields': YOUTUBE_PLAYLIST_FIELDS, 'key': YOUTUBE_API_KEY}
         return self.youtube.load_playlist_items(params)
+    def __load_videos_with_page_token(self, maxResults, token = None):
+        params = {'part': YOUTUBE_API_PART, 'maxResults': maxResults, 'playlistId': YOUTUBE_PLAYLIST_ID, 'fields': YOUTUBE_PLAYLIST_FIELDS, 'key': YOUTUBE_API_KEY}
+        if token:
+            params['pageToken'] = token
+        response = self.youtube.load_playlist_items_with_tokens(params)
+        if 'prevPageToken' in response:
+            self.__display_next_prev('Previous', response['prevPageToken'])
+        if 'nextPageToken' in response:
+            self.__display_next_prev('Next', response['nextPageToken'])
+        return response['items']
+    def __display_next_prev(title, token):
+        self.add_item(title.encode('utf-8'),token.encode("utf-8"),4)
     def __display_on_mode_change(self):
         if self.mode is None:
             self.display_all_categories()
@@ -159,6 +171,9 @@ class MetroNews:
             xbmcplugin.endOfDirectory(int(sys.argv[1]))
         elif self.mode==3 :
             self.play_video()
+            xbmcplugin.endOfDirectory(int(sys.argv[1]))
+        elif self.mode==4 :
+            self.iterate_all_videos()
             xbmcplugin.endOfDirectory(int(sys.argv[1]))
         else:
             self.display_nothing()
