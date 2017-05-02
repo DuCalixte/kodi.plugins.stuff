@@ -3,9 +3,6 @@ import os
 import sys
 import re
 import string
-import urllib
-import urllib2
-import dateutil.parser
 
 # xbmc modules
 import xbmc
@@ -155,7 +152,7 @@ class MetroNews:
             info = {}
             self.add_item(title.encode('utf-8'),url.encode("utf-8"),100,icon_image.encode("utf-8"),info,FANART_PATH, True)
     def __display_videos_from_query(self, items):
-        videos = sorted(items, key=lambda k: dateutil.parser.parse(k['snippet']['publishedAt']), reverse=True)
+        videos = sorted(items, key=lambda k: k['snippet'].get('publishedAt', ""), reverse=True)
         for video in videos:
             try:
                 title = video['snippet']['title']
