@@ -5,6 +5,7 @@ import re
 import string
 import urllib
 import urllib2
+import dateutil.parser
 
 # xbmc modules
 import xbmc
@@ -153,7 +154,8 @@ class MetroNews:
                 icon_image = video['snippet']['thumbnails']['default']['url']
             info = {}
             self.add_item(title.encode('utf-8'),url.encode("utf-8"),100,icon_image.encode("utf-8"),info,FANART_PATH, True)
-    def __display_videos_from_query(self, videos):
+    def __display_videos_from_query(self, items):
+        videos = sorted(items, key=lambda k: dateutil.parser.parse(k['snippet']['publishedAt']), reverse=True)
         for video in videos:
             try:
                 title = video['snippet']['title']
@@ -180,7 +182,7 @@ class MetroNews:
             self.__display_next_prev('Next', response['nextPageToken'])
         return response['items']
     def __query_videos_with_page_token(self, query, maxResults, next_mode, token = None):
-        params = {'part': YOUTUBE_API_PART, 'q': query, 'maxResults': maxResults, 'playlistId': YOUTUBE_PLAYLIST_ID, 'order': YOUTUBE_SORT_BY_DATE, 'fields': YOUTUBE_PLAYLIST_FIELDS, 'key': YOUTUBE_API_KEY}
+        params = {'part': YOUTUBE_API_PART, 'q': query, 'maxResults': maxResults, 'playlistId': YOUTUBE_PLAYLIST_ID, 'order': YOUTUBE_SORT_BY_RELEVANCE, 'fields': YOUTUBE_PLAYLIST_FIELDS, 'key': YOUTUBE_API_KEY}
         if token:
             params['pageToken'] = token
         response = self.youtube.query_playlist_items_with_tokens(params)
