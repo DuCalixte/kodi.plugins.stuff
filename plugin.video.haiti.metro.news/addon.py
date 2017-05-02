@@ -155,7 +155,7 @@ class MetroNews:
             self.add_item(title.encode('utf-8'),url.encode("utf-8"),100,icon_image.encode("utf-8"),info,FANART_PATH, True)
     def __display_videos_from_query(self, items):
         videos = sorted(items, key=lambda k: k['snippet'].get('publishedAt', ""), reverse=True)
-        for video in videos:
+        for video in (content for content in videos if content['snippet']['channelTitle'] == "Metropole Tele"):
             try:
                 title = video['snippet']['title']
                 url = video['id']['videoId']
